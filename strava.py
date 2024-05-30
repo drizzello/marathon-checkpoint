@@ -10,10 +10,10 @@ from pandas.tseries.offsets import DateOffset
 import pred_functions as pf
 
 # Define constants
-STRAVA_AUTHORIZATION_URL = "https://www.strava.com/oauth/authorize"
-STRAVA_CLIENT_ID = "125089"
-STRAVA_CLIENT_SECRET = "01988b054ef2c23dffe66ca1329065294a29f1a5"
-APP_URL = "https://marathoncheckpoint.streamlit.app/"
+STRAVA_AUTHORIZATION_URL = st.secrets["STRAVA_AUTHORIZATION_URL"]
+STRAVA_CLIENT_ID = st.secrets["STRAVA_CLIENT_ID"]
+STRAVA_CLIENT_SECRET = st.secrets["STRAVA_CLIENT_SECRET"]
+APP_URL = st.secrets["APP_URL"]
 
 @st.cache_data
 def load_image_as_base64(image_path):
