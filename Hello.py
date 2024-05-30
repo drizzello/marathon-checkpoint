@@ -118,14 +118,14 @@ st.cache_data()
 def display_ranking(predicted_time_sec):
     marathon_files = [
         ("Milano", "marathon_results/MILANO.xls", "https://www.milanomarathon.it/"),
-        ("Venezia", "marathon_results/VENEZIA.xls", "https://www.venicemarathon.it/"),
-        ("Roma", "marathon_results/ROMA2024.xls", "https://www.runromethemarathon.com/")
+        ("Venezia", "marathon_results/VENEZIA.xls", "https://www.venicemarathon.it/")
+        #("Roma", "marathon_results/ROMA2024.xls", "https://www.runromethemarathon.com/")
     ]
     
     st.title("COME TI QUALIFICHERESTI IN QUESTE 3 MARATONE :first_place_medal:", anchor="ranking")
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     
-    for col, (name, file_path, site_path) in zip([col1, col2, col3], marathon_files):
+    for col, (name, file_path, site_path) in zip([col1, col2], marathon_files):
         position, df = strava.marathon_ranking(file_path, predicted_time_sec)
         with col:
             st.header(f"{position}°/{len(df)}")
