@@ -9,26 +9,11 @@ import pandas as pd
 from pandas.tseries.offsets import DateOffset
 import pred_functions as pf
 
-
-
-APP_URL = "https://marathoncheckpoint.streamlit.app/"
-STRAVA_CLIENT_ID = "125089"
-STRAVA_CLIENT_SECRET = "01988b054ef2c23dffe66ca1329065294a29f1a5"
-STRAVA_AUTHORIZATION_URL = "https://www.strava.com/oauth/authorize"
-STRAVA_API_BASE_URL = "https://www.strava.com/api/v3"
-DEFAULT_ACTIVITY_LABEL = "NO_ACTIVITY_SELECTED"
-STRAVA_ORANGE = "#fc4c02"
-
-import base64
-import streamlit as st
-import httpx
-from bokeh.models.widgets import Div
-
 # Define constants
 STRAVA_AUTHORIZATION_URL = "https://www.strava.com/oauth/authorize"
 STRAVA_CLIENT_ID = "125089"
 STRAVA_CLIENT_SECRET = "01988b054ef2c23dffe66ca1329065294a29f1a5"
-APP_URL = "http://localhost:8501"
+APP_URL = "https://marathoncheckpoint.streamlit.app/"
 
 @st.cache_data
 def load_image_as_base64(image_path):
