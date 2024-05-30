@@ -117,9 +117,9 @@ def calculate_and_display_predictions(df):
 st.cache_data()
 def display_ranking(predicted_time_sec):
     marathon_files = [
-        ("Milano", "/Users/daviderizzello/Documents/Progetto_AI/Running_AI/Marathon_Results/MILANO.xls", "https://www.milanomarathon.it/"),
-        ("Venezia", "/Users/daviderizzello/Documents/Progetto_AI/Running_AI/Marathon_Results/VENEZIA.xls", "https://www.venicemarathon.it/"),
-        ("Roma", "/Users/daviderizzello/Documents/Progetto_AI/Running_AI/Marathon_Results/ROMA2024.xls", "https://www.runromethemarathon.com/")
+        ("Milano", "/marathon_results/MILANO.xls", "https://www.milanomarathon.it/"),
+        ("Venezia", "/marathon_results/VENEZIA.xls", "https://www.venicemarathon.it/"),
+        ("Roma", "/marathon_results/ROMA2024.xls", "https://www.runromethemarathon.com/")
     ]
     
     st.title("COME TI QUALIFICHERESTI IN QUESTE 3 MARATONE :first_place_medal:", anchor="ranking")
