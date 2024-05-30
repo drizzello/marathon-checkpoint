@@ -1,8 +1,10 @@
 import math
 import pandas as pd
 import datetime 
+import streamlit as st
 
 # Predict pace
+@st.cache_data
 def predict_marathon_time(km_per_week, previous_pace):
     # Calculate pace in seconds per kilometer
     pace_sec_per_km = 17.1 + 140.0 * math.exp(-0.0053 * km_per_week) + 0.55 * previous_pace
@@ -18,6 +20,15 @@ def predict_marathon_time(km_per_week, previous_pace):
     #return f"{hours:02}:{minutes:02}:{seconds:02}"
     return hours, minutes, seconds
 
+st.cache_data
+def marathon_pace_min_per_km(total_seconds):
+    pace_sec_per_km = total_seconds / 42.195  # average seconds per kilometer
+    
+    # Convert seconds to minutes and seconds
+    minutes_per_km = int(pace_sec_per_km // 60)
+    seconds_per_km = int(pace_sec_per_km % 60)
+
+    return f"{minutes_per_km}:{seconds_per_km:02}"
 
 def check_number_of_trainings(number):
     if number < 4:
@@ -43,7 +54,7 @@ def delta_mpt(old_mpt_hh, old_mpt_mm, old_mpt_ss, pred_hh, pred_mm, pred_ss):
     pred_total_seconds = pred_hh * 3600 + pred_mm * 60 + pred_ss
 
     # Calculate the difference in seconds
-    delta_seconds = pred_total_seconds - old_total_seconds
+    delta_seconds = old_total_seconds - pred_total_seconds
 
     # Convert the difference to minutes and adjust the sign accordingly
     delta_minutes = delta_seconds / 60
