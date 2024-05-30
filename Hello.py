@@ -27,11 +27,6 @@ strava_auth = strava.authenticate(header=strava_header, stop_if_unauthenticated=
 if strava_auth is None:
     st.title(":runner: Maratona CheckPoint :stopwatch:")
     st.markdown("Clicca sul tasto \"Connect with Strava\" in alto per effettuare il login con il tuo account strava e cominciare.")
-    #st.image(
-    #    "https://files.gssns.io/public/streamlit-activity-viewer-demo.gif",
-    #    caption="Streamlit Activity Viewer demo",
-    #    use_column_width="always",
-    #)
     st.stop()
 
 df = strava.process_strava_data(strava_auth['access_token'])
