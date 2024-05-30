@@ -20,7 +20,7 @@ st.set_page_config(
     page_icon=":runner:",
 )
 
-st.image("https://analytics.gssns.io/pixel.png")
+#st.image("https://analytics.gssns.io/pixel.png")
 strava_header = strava.header()
 strava_auth = strava.authenticate(header=strava_header, stop_if_unauthenticated=False)
 
