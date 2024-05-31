@@ -147,21 +147,6 @@ def display_one_month_ago_progress(weeks, pred_hh, pred_mm, pred_ss):
                 st.write(f"Predicted MPT: {pred_hh:02}:{pred_mm:02}:{pred_ss:02}")
                 st.write(f"Difference in minutes: {difference_minutes}")
 
-                st.title(f"{old_mpt_hh:02}:{old_mpt_mm:02}:{old_mpt_ss:02}" )
-                if difference_minutes < 0:
-                    minutes_str = str(abs(round(difference_minutes, 0)))
-                    st.write(f":stopwatch: Hai :red[perso] **{minutes_str}** minuti.")
-                elif difference_minutes == 0:
-                    st.write(f":stopwatch: Il tuo tempo non è cambiato.")
-                else:
-                    minutes_str = str(round(difference_minutes, 0))
-                    st.write(f":stopwatch: Hai :green[conquistato] **{minutes_str}** minuti.")
-
-            with col2:
-                if difference_minutes > 0:
-                    st.title(":green[DAJE!]")
-                else:
-                    st.title(":green[NON MOLLARE!]")
 
 
 
