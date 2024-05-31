@@ -139,7 +139,7 @@ def display_one_month_ago_progress(weeks, pred_hh, pred_mm, pred_ss):
             st.markdown(style_title, unsafe_allow_html=True)
 
             with old_mpt_column:
-                old_mpt_hh, old_mpt_mm, old_mpt_ss = weeks.iloc[-4]['Tempo Previsto Maratona_int']
+                old_mpt_hh, old_mpt_mm, old_mpt_ss = weeks.iloc[-2]['Tempo Previsto Maratona_int']
                 difference_minutes = delta_mpt(old_mpt_hh, old_mpt_mm, old_mpt_ss, pred_hh, pred_mm, pred_ss)
 
                 # Debug prints
