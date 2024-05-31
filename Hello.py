@@ -276,7 +276,7 @@ if num_sessions_last_two_weeks >= 6 or num_sessions_last_week >= 4:
     show_sidebar()
     weeks, predicted_time_sec, pred_hh, pred_mm, pred_ss, predicted_pace = calculate_and_display_predictions(df)
     display_ranking(predicted_time_sec)
-    #display_one_month_ago_progress(weeks, pred_hh, pred_mm, pred_ss)
+    display_one_month_ago_progress(weeks, pred_hh, pred_mm, pred_ss)
     display_progress(weeks)
     display_tips()
     contact_us_form()
