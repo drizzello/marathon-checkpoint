@@ -122,7 +122,7 @@ def display_ranking(predicted_time_sec):
     marathon_files = [
         ("Milano", "marathon_results/MILANO.xls", "https://www.milanomarathon.it/"),
         ("Venezia", "marathon_results/VENEZIA.xls", "https://www.venicemarathon.it/"),
-        ("Roma", "marathon_results/ROMA2024.xls", "https://www.runromethemarathon.com/")
+        ("Roma", "marathon_results/VENEZIA.xls", "https://www.runromethemarathon.com/")
     ]
     with st.container():
         st.markdown('<div class="centered-container">', unsafe_allow_html=True)
