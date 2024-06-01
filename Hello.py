@@ -20,13 +20,39 @@ st.set_page_config(
     page_icon=":runner:",
 )
 
-#st.image("https://analytics.gssns.io/pixel.png")
+#Import style.css
+with open("style.css") as f:
+    css = f.read()
+st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+
+st.image("https://analytics.gssns.io/pixel.png")
 strava_header = strava.header()
 strava_auth = strava.authenticate(header=strava_header, stop_if_unauthenticated=False)
 
 if strava_auth is None:
     st.title(":runner: Maratona CheckPoint :stopwatch:")
     st.markdown("Clicca sul tasto \"Connect with Strava\" in alto per effettuare il login con il tuo account strava e cominciare.")
+
+    st.image(
+        "https://files.gssns.io/public/streamlit-activity-viewer-demo.gif",
+        caption="Streamlit Activity Viewer demo",
+        use_column_width="auto" 
+    )
+
+    st.title("Approfondisci il nostro mondo :face_with_monocle:")
+
+    # Display the centered text
+    st.markdown(
+        """
+        <div class="centered-text">
+            Approfondisci aprendo link notion
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+        
+
     st.stop()
 
 df = strava.process_strava_data(strava_auth['access_token'])
@@ -44,29 +70,7 @@ if "show" not in st.session_state:
 
 def show_sidebar():
     with st.sidebar:
-        st.markdown("""
-            <style>
-            .sidebar-button {
-                background-color: #F8F9FA;
-                color: #404143 !important;
-                border: none;
-                padding: 10px 10px;
-                text-align: center;
-                text-decoration: none;
-                display: block;
-                font-size: 2rm;
-                margin: 4px 0;
-                cursor: pointer;
-                border-radius: 15px;
-                box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
-                font-weight: bold;
-            }
-            .sidebar-button:hover {
-                background-color: #F8F9FA;
-            }
-            </style>
-        """, unsafe_allow_html=True)
-
+ 
         st.markdown('<a href="#tempo_oggi" class="sidebar-button">IL TUO TEMPO MARATONA OGGI 🏃</a>', unsafe_allow_html=True)
         st.markdown('<a href="#ranking" class="sidebar-button">COME TI QUALIFICHERESTI IN UNA MARATONA? 🥇</a>', unsafe_allow_html=True)
         st.markdown('<a href="#tempo_ieri" class="sidebar-button">UN MESE FA COME ERI MESSO? ⏪</a>', unsafe_allow_html=True)
@@ -89,6 +93,10 @@ def calculate_and_display_predictions(df):
         lambda row: pf.predict_marathon_time(row['Km Totali Cumulativi'], row['Passo Medio Cumulativo']), axis=1
     )
     weeks['Tempo Previsto Maratona'] = weeks['Tempo Previsto Maratona_int'].apply(lambda x: f"{x[0]:02}:{x[1]:02}:{x[2]:02}")
+    weeks['Passo Medio (min/km)'] = weeks['Passo Medio'].apply(pf.convert_sec_per_km_to_min_per_km)
+    weeks['Passo Medio cumulativo (min/km)'] = weeks['Passo Medio Cumulativo'].apply(pf.convert_sec_per_km_to_min_per_km)
+    weeks['predicted_marathon_time_minutes'] = weeks['Tempo Previsto Maratona'].apply(lambda x: sum(int(t) * 60**i for i, t in enumerate(x.split(':')[::-1])))
+    weeks['Settimana'] = pd.Categorical(weeks['Settimana'], categories=sorted(weeks['Settimana'].unique(), key=lambda x: int(x)), ordered=True)
     
     km_per_week = weeks["Km Totali Cumulativi"].iloc[-1]
     previous_pace = weeks["Passo Medio Cumulativo"].iloc[-1]
@@ -112,23 +120,26 @@ def calculate_and_display_predictions(df):
 st.cache_data()
 def display_ranking(predicted_time_sec):
     marathon_files = [
-        ("Milano", "marathon_results/MILANO.xls", "https://www.milanomarathon.it/"),
-        ("Venezia", "marathon_results/VENEZIA.xls", "https://www.venicemarathon.it/")
-        #("Roma", "marathon_results/ROMA2024.xls", "https://www.runromethemarathon.com/")
+        ("Milano", "/Users/daviderizzello/Documents/Progetto_AI/Running_AI/Marathon_Results/MILANO.xls", "https://www.milanomarathon.it/"),
+        ("Venezia", "/Users/daviderizzello/Documents/Progetto_AI/Running_AI/Marathon_Results/VENEZIA.xls", "https://www.venicemarathon.it/"),
+        ("Roma", "/Users/daviderizzello/Documents/Progetto_AI/Running_AI/Marathon_Results/ROMA2024.xls", "https://www.runromethemarathon.com/")
     ]
-    
-    st.title("COME TI QUALIFICHERESTI IN QUESTE 3 MARATONE :first_place_medal:", anchor="ranking")
-    col1, col2 = st.columns(2)
-    
-    for col, (name, file_path, site_path) in zip([col1, col2], marathon_files):
-        position, df = strava.marathon_ranking(file_path, predicted_time_sec)
-        with col:
-            st.header(f"{position}°/{len(df)}")
-            st.write(f"Maratona di [{name}]({site_path})")
+    with st.container():
+        st.markdown('<div class="centered-container">', unsafe_allow_html=True)
+        st.title("COME TI QUALIFICHERESTI IN QUESTE 3 MARATONE :first_place_medal:", anchor="ranking")
+        col1, col2, col3 = st.columns(3)
+        
+        for col, (name, file_path, site_path) in zip([col1, col2, col3], marathon_files):
+            position, df = strava.marathon_ranking(file_path, predicted_time_sec)
+            with col:
+                st.header(f"{position}°/{len(df)}")
+                st.write(f"Maratona di [{name}]({site_path})")
 
 def display_one_month_ago_progress(weeks, pred_hh, pred_mm, pred_ss):
     # SECTION ONE MONTH AGO OLD MPT
     with st.container():
+        st.markdown('<div class="centered-container">', unsafe_allow_html=True)
+
         if len(weeks) >= 4:
             style_title = "<style>h1 {text-align: center;}</style>"
             st.markdown(style_title, unsafe_allow_html=True)
@@ -159,19 +170,15 @@ def display_one_month_ago_progress(weeks, pred_hh, pred_mm, pred_ss):
                 else:
                     st.title(":green[NON MOLLARE!]")
 
-
-
-
-
-
-
-
 def display_progress(weeks):
     st.title("GUARDA IL TUO PROGRESSO SETTIMANA PER SETTIMANA :chart_with_upwards_trend:", anchor="progressi")
+        
+    # Convert 'Settimana' to integer for proper sorting
+    weeks['Settimana'] = weeks['Settimana'].astype(int)
+        
+    # Sort dataframe by 'Settimana'
+    weeks = weeks.sort_values('Settimana')
     
-    weeks['Passo Medio (min/km)'] = weeks['Passo Medio'].apply(pf.convert_sec_per_km_to_min_per_km)
-    weeks['Passo Medio cumulativo (min/km)'] = weeks['Passo Medio Cumulativo'].apply(pf.convert_sec_per_km_to_min_per_km)
-    weeks['predicted_marathon_time_minutes'] = weeks['Tempo Previsto Maratona'].apply(lambda x: sum(int(t) * 60**i for i, t in enumerate(x.split(':')[::-1])))
     
     col = st.columns(3)
     with col[0]:
@@ -182,7 +189,7 @@ def display_progress(weeks):
         show_predicted_time = st.checkbox(':green[Mostra Tempo Previsto Maratona (minuti)]', value=True)
     
     base = alt.Chart(weeks).encode(
-        alt.X('Settimana:O', axis=alt.Axis(title='Settimana', labelAngle=0))
+        alt.X('Settimana:Q', axis=alt.Axis(title='Settimana', labelAngle=0, grid=False))
     )
     layers = []
 
@@ -218,11 +225,18 @@ def display_progress(weeks):
         layers.extend([line, points])
 
     if layers:
-        st.altair_chart(alt.layer(*layers).resolve_scale(y='independent'), use_container_width=True)
+        st.altair_chart(
+            alt.layer(*layers)
+            .resolve_scale(y='independent')
+            .configure_axis(grid=False)
+            .configure_view(strokeWidth=0), 
+            use_container_width=True
+        )
         
-    with st.expander("Guarda le tabelle con le tue medie settimanali e le tue attività:"): 
-        st.dataframe(weeks[["Km Totali", "Passo Medio (min/km)", "Passo Medio cumulativo (min/km)", "Km Totali Cumulativi", "Tempo Previsto Maratona"]])
-        st.dataframe(df_training)
+        with st.expander("Guarda la tabella con le tue medie settimanali:"): 
+            st.dataframe(weeks[["Settimana", "Km Totali", "Passo Medio (min/km)", "Passo Medio cumulativo (min/km)", "Km Totali Cumulativi", "Tempo Previsto Maratona"]])
+        with st.expander("Guarda la tabella con le tue attività:"):         
+            st.dataframe(df_training)
 
 def display_tips():
     st.title(":mega: Ecco alcuni consigli per te!", anchor = "tips")
@@ -280,6 +294,7 @@ if num_sessions_last_two_weeks >= 6 or num_sessions_last_week >= 4:
     display_progress(weeks)
     display_tips()
     contact_us_form()
+
 else:
     st.warning("Non ci sono abbastanza allenamenti recenti per fare una previsione. Torna qui quando avrai almeno 4 allenamenti nell'ultima settimana o 6 nelle ultime 2.")
     contact_us_form()
