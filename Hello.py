@@ -13,18 +13,18 @@ from streamlit_float import *
 # Load API Key from environment variable for security
 API_KEY = st.secrets["MAILER_LITE_API_KEY"]
 MAILERLITE_API_URL = st.secrets["MAILERLITE_API_URL"]
-plausible_script = """
-<script defer data-domain="marathoncheckpoint.streamlit.app" src="https://plausible.io/js/script.js"></script>
-"""
-
-# Incorpora lo script di Plausible Analytics
-st.markdown(plausible_script, unsafe_allow_html=True)
 
 # Page Configuration
 st.set_page_config(
     page_title="Maratona CheckPoint",
     page_icon=":runner:",
 )
+plausible_script = """
+<script defer data-domain="marathoncheckpoint.streamlit.app" src="https://plausible.io/js/script.js"></script>
+"""
+
+# Incorpora lo script di Plausible Analytics
+st.markdown(plausible_script, unsafe_allow_html=True)
 
 #Import style.css
 with open("style.css") as f:
