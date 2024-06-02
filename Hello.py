@@ -23,7 +23,7 @@ st.set_page_config(
 )
 # Plausible Analytics script
 plausible_script = """
-<script defer data-domain="marathoncheckpoint.streamlit.app" src="https://plausible.io/js/script.js"></script>
+<script defer data-domain="maratonacheckpoint.streamlit.app" src="https://plausible.io/js/script.js"></script>
 """
 
 # Incorpora lo script di Plausible Analytics
