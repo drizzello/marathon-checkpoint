@@ -9,6 +9,8 @@ import strava
 import pred_functions as pf
 import guidelines
 from streamlit_float import *
+import streamlit.components.v1 as components
+
 
 # Load API Key from environment variable for security
 API_KEY = st.secrets["MAILER_LITE_API_KEY"]
@@ -19,12 +21,13 @@ st.set_page_config(
     page_title="Maratona CheckPoint",
     page_icon=":runner:",
 )
+# Plausible Analytics script
 plausible_script = """
 <script defer data-domain="marathoncheckpoint.streamlit.app" src="https://plausible.io/js/script.js"></script>
 """
 
 # Incorpora lo script di Plausible Analytics
-st.markdown(plausible_script, unsafe_allow_html=True)
+components.html(plausible_script, height=0)
 
 #Import style.css
 with open("style.css") as f:
