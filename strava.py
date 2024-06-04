@@ -24,7 +24,7 @@ def load_image_as_base64(image_path):
 def powered_by_strava_logo():
     base64_image = load_image_as_base64("./static/api_logo_pwrdBy_strava_horiz_light.png")
     st.markdown(
-        f'<img src="data:image/png;base64,{base64_image}" width="100%" alt="powered by strava">',
+        f'<img src="data:image/png;base64,{base64_image}" width="50%" alt="powered by strava">',
         unsafe_allow_html=True,
     )
 
