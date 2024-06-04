@@ -27,8 +27,8 @@ def powered_by_strava_logo():
         """
         <style>
         .responsive-img {
-            width: 100%;
-            max-width: 400px; /* You can adjust the max-width as needed */
+            width: 50%;
+            max-width: 200px; /* You can adjust the max-width as needed */
             height: auto;
         }
         </style>
