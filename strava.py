@@ -23,7 +23,7 @@ def load_image_as_base64(image_path):
     return base64.b64encode(contents).decode("utf-8")
 
 def powered_by_strava_logo():
-    base64_image = load_image_as_base64(".static/api_logo_cptblWith_strava_stack_light.png")
+    base64_image = load_image_as_base64("static/api_logo_cptblWith_strava_stack_light.png")
     st.markdown(
         """
         <style>
