@@ -8,6 +8,8 @@ from stravalib import Client
 import pandas as pd
 from pandas.tseries.offsets import DateOffset
 import pred_functions as pf
+from PIL import Image, ExifTags
+
 
 # Define constants
 STRAVA_AUTHORIZATION_URL = st.secrets["STRAVA_AUTHORIZATION_URL"]
@@ -16,31 +18,7 @@ STRAVA_CLIENT_SECRET = st.secrets["STRAVA_CLIENT_SECRET"]
 APP_URL = st.secrets["APP_URL"]
 
 @st.cache_data
-def load_image_as_base64(image_path):
-    with open(image_path, "rb") as f:
-        contents = f.read()
-    return base64.b64encode(contents).decode("utf-8")
-
-def powered_by_strava_logo():
-    base64_image = load_image_as_base64("./static/api_logo_pwrdBy_strava_horiz_light.png")
-    st.markdown(
-        """
-        <style>
-        .responsive-img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-    st.markdown(
-        f'<img src="data:image/png;base64,{base64_image}" class="responsive-img" alt="powered by strava">',
-        unsafe_allow_html=True,
-    )
+from PIL import Image, ExifTags
     
 def authorization_url():
     request = httpx.Request(
