@@ -27,9 +27,11 @@ def powered_by_strava_logo():
         """
         <style>
         .responsive-img {
-            width: 50%;
-            max-width: 200px; /* You can adjust the max-width as needed */
+            max-width: 100%;
             height: auto;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
         </style>
         """,
@@ -39,7 +41,7 @@ def powered_by_strava_logo():
         f'<img src="data:image/png;base64,{base64_image}" class="responsive-img" alt="powered by strava">',
         unsafe_allow_html=True,
     )
-
+    
 def authorization_url():
     request = httpx.Request(
         method="GET",
